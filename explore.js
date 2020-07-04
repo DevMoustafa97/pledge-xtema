@@ -112,7 +112,7 @@ auth.onAuthStateChanged(user=>{
               <a href="https://api.whatsapp.com/send?phone=2${post.data()['phone']}&text=i%20want%20to%20contact%20you"><img src="images/whatsapp logo.png" alt="whatsapp" style="width: 50px;"><span>${post.data()['phone']}</span></a>
               </div>
               <div>
-               <a href="tel:${post.data()['phone']}"> <img src="images/phone-call.PNG" alt="call" style="width: 40px;"><span>${post.data()['phone']}</span></a>
+               <a href="tel:${post.data()['phone']}"> <img src="images/call.png" alt="call" style="width: 40px;"><span>${post.data()['phone']}</span></a>
               </div>
               <div>
                 <a href="mailto:${post.data()['mail']}"> <img src="images/mail.png" alt="whatsapp" style="width: 30px;"><span>${post.data()['mail']}</span></a>
