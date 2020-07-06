@@ -54,6 +54,7 @@ auth.onAuthStateChanged(user => {
         // Change photo stuff 
         document.querySelector('#changePhotoForm').addEventListener('submit',e=>{
             e.preventDefault();
+            document.querySelector('.prog').style.display = 'flex';
             storage.ref('users/' + userId + '/profile.jpg').put(file)
             .then(()=>{
 
