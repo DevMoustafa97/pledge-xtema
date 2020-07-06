@@ -70,10 +70,34 @@ nav button {
 }
 
 .posts {
-    margin-top: 15px;
-    padding-top: 50px;
+    margin-top: 10px;
     /* border:1px solid black ; */
     
+}
+.filter {
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-left: 2em;
+    align-items: flex-start;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 40px lightgray, -10px -10px 40px lightgray;
+    padding: 20px;
+}
+.filter .radios {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.radios div,label,input {
+    cursor: pointer !important;
+}
+.filter input[type="radio"]{
+    margin-right: 20px;
 }
 .post {
     display: flex;

@@ -1,4 +1,3 @@
-console.log('hi');
 
 auth.onAuthStateChanged(user=>{
     if(!user) {
@@ -12,11 +11,10 @@ auth.onAuthStateChanged(user=>{
         // nav bar
         // image
         const navImg = document.querySelector('#navImg');
-        console.log(navImg.src)
         storage.ref('users/'+userId+'/profile.jpg').getDownloadURL().then(imgurl=>{
             navImg.src = imgurl;
         }).catch(err =>{
-            console.log(err);
+            console.log( 'no user img');
         })
         // hold
         // getting signed in user info
@@ -59,7 +57,7 @@ auth.onAuthStateChanged(user=>{
                 fullName:formfullName,
                 mail:formmail,
                 phone:formphone,
-                type:authuser['type']
+                type:authuser['type'] // getting type *******
                 
             }).then(()=>{
                 alert('Post Uploaded Successfully');
@@ -74,65 +72,75 @@ auth.onAuthStateChanged(user=>{
             // Loading posts from
             db.collection('posts').get().then(snapshot=>{
                 snapshot.forEach(post =>{
-                    let postImgSRC;
+                    let postImgSRC = './images/iconfinder_user_male2_172626 1.png';
                     storage.ref('users/'+post.id+'/profile.jpg').getDownloadURL().then(imgurl=>{
-                        postImgSRC = imgurl;}).then(()=>{
-                            console.log(postImgSRC,post.data())
+                        postImgSRC = imgurl;}).catch(()=>{
+                            console.log('user has no img')
+                        }).then(()=>{
+                            console.log(postImgSRC)
                             let typerender = post.data()['type'] == 'volunteer' ?
                             `
                             <div class = "type"><p>Volunteer</p></div>
                             `
                             :"";
                             let renderPost = 
-                            `
-                            <div class="container post" id="${post.id}">
-          <div class="post-header">
-            <img src="${postImgSRC}" alt="">
-            <h3>${post.data()['fullName']}</h3>
-            <div>
-                ${typerender}
-            </div>
-          </div>
-          <div class="post-body">
-            <div>
-              <p>${post.data()['txt']}</p>
-            </div>
-            <div>
-              <span>City:</span><b>${post.data()['city']}</b> 
-              <span>Area:</span><b>${post.data()['area']}</b>
-            </div>
-            <button class="btn btn-primary contact">Contact</button>
-          </div>
-          
-          <div class="post-footer">
-            
-            <div class="contact-info">
-              <h5>Contact info:</h5>
-              <div>
-              <a href="https://api.whatsapp.com/send?phone=2${post.data()['phone']}&text=i%20want%20to%20contact%20you"><img src="images/whatsapp logo.png" alt="whatsapp" style="width: 50px;"><span>${post.data()['phone']}</span></a>
-              </div>
-              <div>
-               <a href="tel:${post.data()['phone']}"> <img src="images/call.png" alt="call" style="width: 40px;"><span>${post.data()['phone']}</span></a>
-              </div>
-              <div>
-                <a href="mailto:${post.data()['mail']}"> <img src="images/mail.png" alt="whatsapp" style="width: 30px;"><span>${post.data()['mail']}</span></a>
-              </div>
-            </div>
-          </div>
-        </div>        
-                            
+                                                        `
+                                                        <div class="container post" id="${post.id}">
+                                    <div class="post-header">
+                                        <img src="${postImgSRC}" alt="">
+                                        <h3>${post.data()['fullName']}</h3>
+                                        <div class="userType">
+                                            ${typerender}
+                                        </div>
+                                    </div>
+                                    <div class="post-body">
+                                        <div>
+                                        <p>${post.data()['txt']}</p>
+                                        </div>
+                                        <div>
+                                        <span>City:</span><b>${post.data()['city']}</b> 
+                                        <span>Area:</span><b>${post.data()['area']}</b>
+                                        </div>
+                                        <button class="btn btn-primary contact">Contact</button>
+                                    </div>
+                                    
+                                    <div class="post-footer">
+                                        
+                                        <div class="contact-info">
+                                        <h5>Contact info:</h5>
+                                        <div>
+                                        <a href="https://api.whatsapp.com/send?phone=2${post.data()['phone']}&text=i%20want%20to%20contact%20you"><img src="images/whatsapp logo.png" alt="whatsapp" style="width: 50px;"><span>${post.data()['phone']}</span></a>
+                                        </div>
+                                        <div>
+                                        <a href="tel:${post.data()['phone']}"> <img src="images/call.png" alt="call" style="width: 40px;"><span>${post.data()['phone']}</span></a>
+                                        </div>
+                                        <div>
+                                            <a href="mailto:${post.data()['mail']}"> <img src="images/mail.png" alt="whatsapp" style="width: 30px;"><span>${post.data()['mail']}</span></a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>        
+                                                        
                             `
 
+
+                            // document.querySelectorAll('.type p').forEach(element =>{
+                            //    console.log( element.parentElement.parentElement.parentElement.parentElement);
+                            // })
                             document.querySelector('.posts').innerHTML+=renderPost
                             document.querySelectorAll('.contact').forEach(btn =>{
                                 btn.addEventListener('click' ,e=>{
                                     e.target.parentElement.nextElementSibling.style.display = 'flex';
-                                    console.log('clickkkk')
                                 })
                             })
                         
 
 
+                        }).then(()=>{
+
+                            // document.querySelectorAll('.type p').forEach(element =>{
+                            //      element.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
+                            //  })
                         })
                 })
             })
@@ -166,7 +174,6 @@ auth.onAuthStateChanged(user=>{
     document.querySelectorAll('.contact').forEach(btn =>{
         btn.addEventListener('click' ,e=>{
             e.target.parentElement.nextElementSibling.style.display = 'flex';
-            console.log('clickkkk')
         })
     })
 
@@ -176,3 +183,33 @@ auth.onAuthStateChanged(user=>{
     document.querySelector('#navName').addEventListener('click',e =>{
         window.location.href="profile.html"
     })
+
+    // filter stuff
+    
+    function displayAll () {
+            
+        document.querySelectorAll('.post').forEach(post=>{
+            post.style.display = 'flex'
+        })
+    }
+
+
+    function vol () {
+        document.querySelectorAll('.post').forEach(post=>{
+            post.style.display = 'none'
+        })
+        document.querySelectorAll('.type p').forEach(element =>{
+            element.parentElement.parentElement.parentElement.parentElement.style.display = 'flex';
+        })
+       
+        
+    }
+    
+    function help  (){
+        document.querySelectorAll('.post').forEach(post=>{
+            post.style.display = 'flex'
+        })
+        document.querySelectorAll('.type p').forEach(element =>{
+            element.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
+        })
+    }

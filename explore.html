@@ -39,6 +39,25 @@
         </form>
     </section>
     <section class="container posts">
+      <section class="container filter">
+        <div>
+          <h4>filter:</h4>
+        </div>
+        <div class="radios">
+          <div class="displayAll" onclick="displayAll()">
+            <label for="all">All</label>
+            <input type="radio" name="sortby " id="all" checked>
+          </div>
+          <div class="vol" onclick="vol()">
+            <label for="vol">Volunteers</label>
+            <input type="radio" name="sortby " id="vol" value="vol" >
+          </div>
+        <div class="help" onclick="help()">
+            <label for="help">Help seekers</label>
+            <input type="radio" name="sortby " id="help" value="help" >
+          </div>
+        </div>
+      </section>
         <!-- <div class="container post">
           <div class="post-header">
             <img src="images/iconfinder_user_male2_172626 1.png" alt="">
