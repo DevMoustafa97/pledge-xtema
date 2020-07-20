@@ -65,6 +65,11 @@ nav button {
 .post-form * {
     text-transform: capitalize;
 }
+
+[type="datetime-local"]{
+    max-width: 300px;
+}
+
 .post-form button {
     border-radius: 5px;
 }

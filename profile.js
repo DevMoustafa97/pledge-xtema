@@ -24,8 +24,8 @@ auth.onAuthStateChanged(user => {
         const type = document.querySelector('#type');
         const gender = document.querySelector('#gender');
         const age = document.querySelector('#age')
-        
-        console.log(fullName,type,email,phone,gender,age);
+        const bio = document.querySelector('#bio');
+        console.log(fullName,type,email,phone,gender,age,bio);
         // change prof pic
         var profileImage =  document.querySelector('#profileImage');
         storage.ref('users/'+userId+'/profile.jpg').getDownloadURL().then(imgurl=>{
@@ -40,12 +40,15 @@ auth.onAuthStateChanged(user => {
         
         
         db.collection('users').doc(userId).get().then((snapshot)=>{
+            var dt = new Date();
+
             fullName.innerHTML = snapshot.data()['firstName'] +" "+ snapshot.data()['lastName'];
             type.innerHTML =`${snapshot.data()['type'] == 'volunteer'?"<strong>volunteer</strong>":''} `;
             email.innerHTML =   `<div>${snapshot.data()['email']}</div>`;
             phone.innerHTML = snapshot.data()['phone'];
-            age.innerHTML = snapshot.data()['age'];
+            age.innerHTML =  snapshot.data()['age'].length>3? dt.getFullYear() - Number(snapshot.data()['age'].substr(0,4)) :snapshot.data()['age'];
             gender.innerHTML = snapshot.data()['gender'];
+            bio.innerHTML = snapshot.data()['bio']?snapshot.data()['bio']:'Write something about you'
             // change page title
             document.querySelector('title').innerHTML = `${snapshot.data()['firstName']} ${snapshot.data()['lastName']} | Pledge`
             
@@ -91,9 +94,37 @@ auth.onAuthStateChanged(user => {
 
         })
 
-        
+        // edit phone number
+        const editPhoneForm = document.querySelector('#editPhoneForm');
 
+        editPhoneForm.addEventListener('submit' , e=>{
+            e.preventDefault();
+            let newPhone = editPhoneForm['number'].value
+            db.collection('users').doc(userId).update({phone:newPhone})
+            .then(()=>{
+                alert('Successfully changed!');
+                window.location.href="profile.html"
+            })
+            .catch((err)=>{
+                alert(err.message);
+            })
+        })
 
+        // Edit bio stuff 
+
+        const changebioform = document.querySelector('#editbioForm');
+        changebioform.addEventListener('submit' , e=>{
+            e.preventDefault();
+            let newBio = changebioform['newBio'].value;
+            db.collection('users').doc(userId).update({bio:newBio})
+            .then(()=>{
+                alert('Successfully changed!');
+                window.location.href="profile.html"
+            })
+            .catch((err)=>{
+                alert(err.message);
+            })
+        })
         
 
         

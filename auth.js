@@ -63,7 +63,9 @@ signupform.addEventListener('submit' , (e)=>{
             age:age,
             phone:phone,
             type:type,
-            gender:gender});
+            gender:gender,
+            bio:'Write something about you'
+        });
         
         })
     .then(()=>{

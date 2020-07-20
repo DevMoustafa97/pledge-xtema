@@ -45,6 +45,9 @@ auth.onAuthStateChanged(user=>{
             const formtxt =  postForm['post-text'].value[0].toUpperCase() + postForm['post-text'].value.substr(1) 
             const formcity =  postForm['post-city'].value[0].toUpperCase() + postForm['post-city'].value.substr(1) 
             const formarea =  postForm['post-area'].value[0].toUpperCase() + postForm['post-area'].value.substr(1) 
+            const formdtfrom = postForm['post-dt-from'].value;
+            const formdtto = postForm['post-dt-to'].value;
+            const formserv = postForm['post-serv'].value;
             // getting user values
             const formfullName = `${authuser['firstName']} ${authuser['lastName']}`;
             const formmail = authuser['email'];
@@ -54,6 +57,9 @@ auth.onAuthStateChanged(user=>{
                 txt:formtxt,
                 city:formcity,
                 area:formarea,
+                service:formserv,
+                dateFrom:formdtfrom,
+                dateTo:formdtto,
                 fullName:formfullName,
                 mail:formmail,
                 phone:formphone,
@@ -95,13 +101,19 @@ auth.onAuthStateChanged(user=>{
                                     </div>
                                     <div class="post-body">
                                         <div>
+                                        <span>Service:</span><b>${post.data()['service']?post.data()['service']: ''}</b> 
+                                        <div>
+                                        <span>From:</span><b>${post.data()['dateFrom']?post.data()['dateFrom'].substr(0,10) +" "+ post.data()['dateFrom'].substr(11) : " "}</b> 
+                                        <br>
+                                        <span style="margin-right:1.3rem">To:</span><b>${post.data()['dateTo']?post.data()['dateTo'].substr(0,10) +" " + post.data()['dateTo'].substr(11) : " "}</b>
+                                        </div>
+                                        <span>City:</span><b>${post.data()['city'] }</b> 
+                                        <span>Region:</span><b>${post.data()['area']}</b>
+                                        </div>
+                                        <div style="padding:3rem 0; ">
                                         <p>${post.data()['txt']}</p>
                                         </div>
-                                        <div>
-                                        <span>City:</span><b>${post.data()['city']}</b> 
-                                        <span>Area:</span><b>${post.data()['area']}</b>
-                                        </div>
-                                        <button class="btn btn-primary contact">Contact</button>
+                                        <button class="btn btn-primary contact ">Contact</button>
                                     </div>
                                     
                                     <div class="post-footer">
